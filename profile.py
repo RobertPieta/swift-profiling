@@ -1,37 +1,43 @@
 
 import os
-import timeit
 import subprocess
+import timeit
+
+import ConfigParser
+
+# Get configuration
+config = ConfigParser.ConfigParser()
+config.read('defaults.cfg')
 
 # Directory to contain generated executables
-TEST_EXECUTABLE_DIR = "./executables"
+TEST_EXECUTABLE_DIR = config.get('DEFAULT', 'TEST_EXECUTABLE_DIR')
 
 # Filename prefix and postfix used to determine if a file is a test file
-TEST_FILE_PREFIX = "test_"
-TEST_FILE_POSTFIX = ".swift"
+TEST_FILE_PREFIX = config.get('DEFAULT', 'TEST_FILE_PREFIX')
+TEST_FILE_POSTFIX = config.get('DEFAULT', 'TEST_FILE_POSTFIX')
 
 # Directory containing the performance tests
-PERFORMANCE_TEST_DIR = "./tests"
+PERFORMANCE_TEST_DIR = config.get('DEFAULT', 'PERFORMANCE_TEST_DIR')
 
 # Name of the framework
-FRAMEWORK_NAME = "SwiftFoundation"
+FRAMEWORK_NAME = config.get('DEFAULT', 'FRAMEWORK_NAME')
 
 # The REFERENCE_SWIFT_FOUNDATION_PATH provides the path to the SwiftFoundation.framework baseline for time profiling
 # Path to the directory containing the SwiftFoundation.framework, Release build
-REFERENCE_FRAMEWORK_PATH = "/Users/Onenigma/Library/Developer/Xcode/DerivedData/Foundation-ggmfmobbfygwlnbglyxwneaxfkgi/Build/Products/Release"
-REFERENCE_EXECUTABLE_SUBDIRECTORY = "reference"
+REFERENCE_FRAMEWORK_PATH = config.get('DEFAULT', 'REFERENCE_FRAMEWORK_PATH')
+REFERENCE_EXECUTABLE_SUBDIRECTORY = config.get('DEFAULT', 'REFERENCE_EXECUTABLE_SUBDIRECTORY')
 
 # The OPTIMIZED_SWIFT_FOUNDATION_PATH provides the path to the new SwiftFoundation.framework to compare
 # Path to the directory containing the SwiftFoundation.framework, Release build
-OPTIMIZED_FRAMEWORK_PATH = "/Users/Onenigma/Library/Developer/Xcode/DerivedData/Foundation-duhmeclfpxruolgbplsgrnwtmotj/Build/Products/Release"
-OPTIMIZED_EXECUTABLE_SUBDIRECTORY = "optimized"
+OPTIMIZED_FRAMEWORK_PATH = config.get('DEFAULT', 'OPTIMIZED_FRAMEWORK_PATH')
+OPTIMIZED_EXECUTABLE_SUBDIRECTORY = config.get('DEFAULT', 'OPTIMIZED_EXECUTABLE_SUBDIRECTORY')
 
 # File name and path for the generated report file, containing the results of the profiling tests
-REPORT_PATH = "./"
-REPORT_NAME = "report.txt"
+REPORT_PATH = config.get('DEFAULT', 'REPORT_PATH')
+REPORT_NAME = config.get('DEFAULT', 'REPORT_NAME')
 
 # The number of iterations a test performs
-TEST_ITERATIONS = 2
+TEST_ITERATIONS = int(config.get('DEFAULT', 'TEST_ITERATIONS'))
 
 # Discover all test files
 def is_valid_test_file(f):
