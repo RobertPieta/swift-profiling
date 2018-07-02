@@ -40,6 +40,7 @@ This script will copy the reference and optimized frameworks into the respective
 [Robert](https://www.linkedin.com/in/robertpieta) is an engineer, entrepreneur, and co-founder of:
 
 • [Onenigma](https://www.onenigma.com/), achieve business objectives with emerging technology
+
 • [TypingID](https://www.typingid.com/), the user-friendly way to stop account takeover
 
 # License
