@@ -10,6 +10,9 @@ TEST_EXECUTABLE_DIR = "./executables"
 TEST_FILE_PREFIX = "test_"
 TEST_FILE_POSTFIX = ".swift"
 
+# Directory containing the performance tests
+PERFORMANCE_TEST_DIR = "./tests"
+
 # Name of the framework
 FRAMEWORK_NAME = "SwiftFoundation"
 
@@ -28,10 +31,14 @@ REPORT_PATH = "./"
 REPORT_NAME = "report.txt"
 
 # The number of iterations a test performs
-TEST_ITERATIONS = 25
+TEST_ITERATIONS = 2
 
 # Discover all test files
-test_files = [f for f in os.listdir(".") if os.path.isfile(f) and f.startswith(TEST_FILE_PREFIX) and f.endswith(TEST_FILE_POSTFIX)]
+def is_valid_test_file(f):
+	path = os.path.join(PERFORMANCE_TEST_DIR, f)
+	return os.path.isfile(path) and f.startswith(TEST_FILE_PREFIX) and f.endswith(TEST_FILE_POSTFIX)
+
+test_files = [os.path.join(PERFORMANCE_TEST_DIR, f) for f in os.listdir(PERFORMANCE_TEST_DIR) if is_valid_test_file(f)]
 
 # Create the executable directories
 reference_executable_path = os.path.join(*[TEST_EXECUTABLE_DIR, REFERENCE_EXECUTABLE_SUBDIRECTORY])
@@ -98,7 +105,12 @@ def time_process_execution(run_command):
 
 def execute_test_file(filename, swift_foundation_path, test_extension):
 	test_name = "{}.exec.{}".format(filename, test_extension)
+
+	# Replace PERFORMANCE_TEST_DIR in the test name for a cleaner path
+	_, test_name = os.path.split(test_name)
+
 	test_path = test_executable_path(test_name, test_extension)
+	
 
 	# Compile the executable
 	compile_command = create_compile_command(test_name, filename, swift_foundation_path, test_path)
